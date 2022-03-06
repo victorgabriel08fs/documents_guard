@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
@@ -37,8 +38,26 @@ class DocumentController extends Controller
      * @param  \App\Http\Requests\StoreDocumentRequest  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
+        $roles = [
+            'name' => ['required', 'string'],
+            'password' => ['required', 'min:8', 'max:8', 'confirmed'],
+            'document' => ['required', 'file', 'max:1000'] //max in kB
+        ];
+
+        $feedback = [
+            'name.required' => 'O campo nome é obrigatório',
+            'password.required' => 'O campo senha é obrigatório',
+            'document.required' => 'O campo documento é obrigatório',
+            'password.min' => 'O campo :attribute precisa ter no mínimo 8',
+            'password.max' => 'O campo :attribute deve ter no máximo 8',
+            'document.max' => 'O tamanho máximo do arquivo é de 1 MB',
+            'password.confirmed' => 'A senha e sua confirmação não condizem'
+        ];
+
+        $request->validate($roles, $feedback);
 
         if ($request->document) {
             $document_urn = $request->file('document')->store('documents/' . auth()->user()->id);

@@ -32,8 +32,8 @@
                                 </div>
                                 <div class="col form-group">
                                     <label for="confirm_password">Confirme a Senha</label>
-                                    <input type="confirm_password" class="form-control" id="confirm_password"
-                                        name="confirm_password">
+                                    <input type="password" class="form-control" id="confirm_password"
+                                        name="password_confirmation">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Enviar</button>
