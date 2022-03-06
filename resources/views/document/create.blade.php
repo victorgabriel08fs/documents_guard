@@ -19,17 +19,24 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label for="arquive">Documento</label>
+                                    <div class="row">
+                                        <label for="arquive">Documento</label>
+                                    </div>
                                     <input type="file" class="form-control-file" id="arquive" name="document">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="form-group">
+                                <div class="col form-group mr-4">
                                     <label for="password">Senha</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
+                                <div class="col form-group">
+                                    <label for="confirm_password">Confirme a Senha</label>
+                                    <input type="confirm_password" class="form-control" id="confirm_password"
+                                        name="confirm_password">
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
 
                         </form>
 
