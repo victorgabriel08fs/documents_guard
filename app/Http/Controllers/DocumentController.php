@@ -75,7 +75,7 @@ class DocumentController extends Controller
         {
             $alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'w', 'y', 'z'];
             $hash = '';
-            for ($i = 0; $i < 15; $i++) {
+            for ($i = 0; $i < 25; $i++) {
                 if (rand(0, 1))
                     $hash = $hash . $alfabeto[rand(0, 25)];
                 else
@@ -143,16 +143,16 @@ class DocumentController extends Controller
     public function authDownload(Request $request)
     {
         $document = Document::where('hash', $request->hash)->get()->first();
-        if ($document->user_received) {
-            return redirect()->route('home')->withErrors(['error' => 'Este arquivo não pode mais ser acessado!']);
+        if (!$document || $document->user_received) {
+            return redirect()->route('document.find')->withErrors(['error' => 'Este arquivo não existe ou não pode mais ser acessado!']);
         }
-        if (Storage::exists($document->path)) {
+        if ($document && Storage::exists($document->path)) {
             if (Hash::check($request->password, $document->password))
                 return redirect()->route('download', ['document' => $document]);
             else
                 return redirect()->route('document.index')->withErrors(['error' => 'ID ou senha inválidos!']);
         }
-        return redirect()->route('home')->withErrors(['error' => 'Arquivo não encontrado!']);
+        return redirect()->route('document.find')->withErrors(['error' => 'Arquivo não encontrado!']);
     }
 
     public function download(Document $document)
