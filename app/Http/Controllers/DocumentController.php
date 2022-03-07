@@ -19,6 +19,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        return redirect()->route('fallback');
     }
     public function findDocument()
     {
@@ -103,7 +104,7 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        //
+        return redirect()->route('fallback');
     }
 
     /**
@@ -114,7 +115,7 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
-        //
+        return redirect()->route('fallback');
     }
 
     /**
@@ -126,7 +127,7 @@ class DocumentController extends Controller
      */
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-        //
+        return redirect()->route('fallback');
     }
 
     /**
@@ -137,7 +138,7 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        //
+        return redirect()->route('fallback');
     }
 
     public function authDownload(Request $request)
