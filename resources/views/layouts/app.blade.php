@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
@@ -53,11 +54,24 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                    @auth
+                        <!-- Left Side Of Navbar -->
+                        <ul class="navbar-nav ">
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Documentos
+                                </a>
 
-                    </ul>
-
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
+                                    <a class="dropdown-item" href="{{ route('document.find') }}">Encontrar
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('document.create') }}">Subir
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    @endauth
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
@@ -81,8 +95,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
