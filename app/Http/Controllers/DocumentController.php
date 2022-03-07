@@ -123,7 +123,10 @@ class DocumentController extends Controller
     public function authDownload(Request $request)
     {
         $document = Document::where('hash', $request->hash)->get()->first();
-        if ($document->id) {
+        if ($document->user_received) {
+            return redirect()->route('home')->withErrors(['error' => 'Este arquivo não pode mais ser acessado!']);
+        }
+        if (Storage::exists($document->path)) {
             if (Hash::check($request->password, $document->password))
                 return redirect()->route('download', ['document' => $document]);
             else
@@ -134,12 +137,22 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        $extension = '';
-        for ($i = 0; $i < strlen($document->path); $i++)
-            if ($document->path[$i] == '.')
-                $pos = $i;
-        for ($i = $pos; $i < strlen($document->path); $i++)
-            $extension = $extension . $document->path[$i];
-        return Storage::download($document->path, $document->name . $extension);
+        function extension($value)
+        {
+            $extension = '';
+            for ($i = 0; $i < strlen($value); $i++)
+                if ($value[$i] == '.')
+                    $pos = $i;
+            for ($i = $pos; $i < strlen($value); $i++)
+                $extension = $extension . $value[$i];
+            return $extension;
+        }
+
+        $document->user_received = auth()->user()->id;
+        $document->save();
+        $data['name'] = $document->name;
+        $data['path'] = $document->path;
+        $document->delete();
+        return Storage::download($data['path'], $data['name'] . extension($data['path']));
     }
 }

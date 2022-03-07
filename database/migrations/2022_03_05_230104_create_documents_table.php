@@ -27,6 +27,8 @@ class CreateDocumentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 
