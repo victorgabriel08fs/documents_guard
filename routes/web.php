@@ -23,4 +23,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware('auth')->group(function () {
     Route::resource('document', App\Http\Controllers\DocumentController::class);
+    Route::get('/download/{document}', [App\Http\Controllers\DocumentController::class, 'download'])->name('download');
+    Route::post('/download', [App\Http\Controllers\DocumentController::class, 'authDownload'])->name('auth.download');
 });

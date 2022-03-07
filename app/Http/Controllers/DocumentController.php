@@ -19,7 +19,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        //
+        return view('document.auth');
     }
 
     /**
@@ -118,5 +118,22 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         //
+    }
+
+    public function authDownload(Request $request)
+    {
+        $document = Document::where('hash', $request->hash)->get()->first();
+        if ($document->id) {
+            if (Hash::check($request->password, $document->password))
+                return redirect()->route('download', ['document' => $document]);
+            else
+                return redirect()->route('document.index')->withErrors(['error' => 'ID ou senha inválidos!']);
+        }
+        return redirect()->route('home')->withErrors(['error' => 'Arquivo não encontrado!']);
+    }
+
+    public function download(Document $document)
+    {
+        return Storage::download($document->path);
     }
 }
