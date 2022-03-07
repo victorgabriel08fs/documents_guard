@@ -19,7 +19,6 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        
     }
     public function findDocument()
     {
@@ -72,7 +71,24 @@ class DocumentController extends Controller
         $data['password'] = bcrypt($request->password);
         $data['user_id'] = auth()->user()->id;
 
-        $data['hash'] = Hash::make(auth()->user()->id);
+        function hashGenerator()
+        {
+            $alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'w', 'y', 'z'];
+            $hash = '';
+            for ($i = 0; $i < 15; $i++) {
+                if (rand(0, 1))
+                    $hash = $hash . $alfabeto[rand(0, 25)];
+                else
+                    $hash = $hash . strval(rand(0, 9));
+            }
+            $document = Document::where('hash', $hash)->get()->first();
+            if ($document)
+                hashGenerator();
+            else
+                return $hash;
+        }
+
+        $data['hash'] = hashGenerator();
 
         Document::create($data);
 
