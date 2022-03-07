@@ -19,6 +19,10 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        
+    }
+    public function findDocument()
+    {
         return view('document.auth');
     }
 
