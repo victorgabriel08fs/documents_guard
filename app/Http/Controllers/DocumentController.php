@@ -134,6 +134,12 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        return Storage::download($document->path);
+        $extension = '';
+        for ($i = 0; $i < strlen($document->path); $i++)
+            if ($document->path[$i] == '.')
+                $pos = $i;
+        for ($i = $pos; $i < strlen($document->path); $i++)
+            $extension = $extension . $document->path[$i];
+        return Storage::download($document->path, $document->name . $extension);
     }
 }
